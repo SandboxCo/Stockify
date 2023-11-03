@@ -1,4 +1,4 @@
-module backend/mod
+module github.com/SandboxCo/Humanity360/backend
 
 go 1.21.3
 
