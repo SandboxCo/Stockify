@@ -17,6 +17,7 @@ func loadRoutes() *chi.Mux {
 	})
 
 	router.Route("/database", loadDatabaseRoutes)
+	router.Route("/datacollection", loadDataCollectionRoutes)
 
 	return router
 }
@@ -29,6 +30,11 @@ func loadDatabaseRoutes(router chi.Router) {
 	router.Get("/{id}", databaseHandler.GetById)
 	router.Put("/{id}", databaseHandler.UpdateByID)
 	router.Delete("/{id}", databaseHandler.DeleteByID)
+}
+
+func loadDataCollectionRoutes(router chi.Router) {
+	dataCollectionHandler := &handler.DataCollection{}
+	router.Get("/", dataCollectionHandler.List)
 }
 
 func loadAuthRoutes(router chi.Router) {

@@ -6,19 +6,19 @@ import (
 	"net/http"
 )
 
-type App struct {
+type ApiGateway struct {
 	router http.Handler
 }
 
-func New() *App {
-	app := &App{
+func New() *ApiGateway {
+	app := &ApiGateway{
 		router: loadRoutes(),
 	}
 
 	return app
 }
 
-func (a *App) Start(ctx context.Context) error {
+func (a *ApiGateway) Start(ctx context.Context) error {
 	server := &http.Server{
 		Addr:    ":3000",
 		Handler: a.router,
