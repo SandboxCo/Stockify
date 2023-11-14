@@ -30,3 +30,11 @@ func loadDatabaseRoutes(router chi.Router) {
 	router.Put("/{id}", databaseHandler.UpdateByID)
 	router.Delete("/{id}", databaseHandler.DeleteByID)
 }
+
+func loadAuthRoutes(router chi.Router) {
+
+}
+
+func loadEmailRoutes(router chi.Router) {
+
+}
