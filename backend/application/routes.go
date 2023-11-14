@@ -18,6 +18,8 @@ func loadRoutes() *chi.Mux {
 
 	router.Route("/database", loadDatabaseRoutes)
 	router.Route("/datacollection", loadDataCollectionRoutes)
+	router.Route("/auth", loadAuthRoutes)
+	router.Route("/email", loadEmailRoutes)
 
 	return router
 }
@@ -34,13 +36,20 @@ func loadDatabaseRoutes(router chi.Router) {
 
 func loadDataCollectionRoutes(router chi.Router) {
 	dataCollectionHandler := &handler.DataCollection{}
+	
 	router.Get("/", dataCollectionHandler.List)
 }
 
 func loadAuthRoutes(router chi.Router) {
+	authHandler := &handler.Auth{}
 
+	router.Post("/", authHandler.CreateUser)
+	router.Get("/", authHandler.Login)
 }
 
 func loadEmailRoutes(router chi.Router) {
+	emailHandler := &handler.Email{}
 
+	router.Post("/", emailHandler.SendMsg)
+	router.Get("/", emailHandler.GetMsg)
 }
