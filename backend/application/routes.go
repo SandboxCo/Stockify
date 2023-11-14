@@ -16,17 +16,17 @@ func loadRoutes() *chi.Mux {
 		w.WriteHeader(http.StatusOK)
 	})
 
-	router.Route("/orders", loadOrderRoutes)
+	router.Route("/database", loadDatabaseRoutes)
 
 	return router
 }
 
-func loadOrderRoutes(router chi.Router) {
-	orderHandler := &handler.Order{}
+func loadDatabaseRoutes(router chi.Router) {
+	databaseHandler := &handler.Database{}
 
-	router.Post("/", orderHandler.Create)
-	router.Get("/", orderHandler.List)
-	router.Get("/{id}", orderHandler.GetById)
-	router.Put("/{id}", orderHandler.UpdateByID)
-	router.Delete("/{id}", orderHandler.DeleteByID)
+	router.Post("/", databaseHandler.Create)
+	router.Get("/", databaseHandler.List)
+	router.Get("/{id}", databaseHandler.GetById)
+	router.Put("/{id}", databaseHandler.UpdateByID)
+	router.Delete("/{id}", databaseHandler.DeleteByID)
 }
