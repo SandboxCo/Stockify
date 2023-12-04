@@ -1,4 +1,4 @@
-package datapipeline
+package main
 
 import (
 	"fmt"
@@ -16,7 +16,7 @@ func processMessage(msg *kafka.Message) {
 	fmt.Printf("Received message: %s - Word count: %d\n", message, wordCount)
 }
 
-func StartConsuming() {
+func main() {
 	c, err := kafka.NewConsumer(&kafka.ConfigMap{
 		"bootstrap.servers": "localhost:9092",
 		"group.id":          "myGroup",

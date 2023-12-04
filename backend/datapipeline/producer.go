@@ -1,4 +1,4 @@
-package datapipeline
+package main
 
 import (
 	"fmt"
@@ -8,7 +8,7 @@ import (
 	"github.com/confluentinc/confluent-kafka-go/kafka"
 )
 
-func StartProducing() {
+func main() {
 	p, err := kafka.NewProducer(&kafka.ConfigMap{"bootstrap.servers": "localhost:9092"})
 	if err != nil {
 		panic(err)

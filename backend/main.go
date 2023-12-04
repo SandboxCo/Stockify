@@ -10,7 +10,7 @@ import (
 
 func main() {
 	app := application.New()
-	datapipeline.StartProducing()
+	//datapipeline.StartProducing()
 	datapipeline.StartConsuming()
 
 	err := app.Start(context.TODO())
