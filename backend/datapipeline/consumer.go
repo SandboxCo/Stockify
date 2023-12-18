@@ -16,7 +16,7 @@ func processMessage(msg *kafka.Message) {
 	fmt.Printf("Received message: %s - Word count: %d\n", message, wordCount)
 }
 
-func main() {
+func mainNewAgain() {
 	c, err := kafka.NewConsumer(&kafka.ConfigMap{
 		"bootstrap.servers": "localhost:9092",
 		"group.id":          "myGroup",
