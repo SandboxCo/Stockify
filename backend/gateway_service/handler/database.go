@@ -3,23 +3,22 @@ package handler
 import (
 	"fmt"
 	"net/http"
+	""
 )
 
-type Database struct{}
-
-func (o *Database) Create(w http.ResponseWriter, r *http.Request) {
+func Create(w http.ResponseWriter, r *http.Request, o *Database) {
 	fmt.Println("Create an order")
 }
 
-func (o *Database) List(w http.ResponseWriter, r *http.Request) {
+func List(w http.ResponseWriter, r *http.Request, o *Database) {
 	fmt.Println("List all orders")
 }
 
-func (o *Database) GetById(w http.ResponseWriter, r *http.Request) {
+func GetById(w http.ResponseWriter, r *http.Request, o *Database) {
 	fmt.Println("Get an order by ID")
 }
 
-func (o *Database) UpdateByID(w http.ResponseWriter, r *http.Request) {
+func UpdateByID(w http.ResponseWriter, r *http.Request, o *Database) {
 	fmt.Println("Update an order by ID")
 }
 
