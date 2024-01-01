@@ -3,7 +3,10 @@ package main
 import (
 	"fmt"
 	"log"
+	"strconv"
+	"time"
 
+	"github.com/confluentinc/confluent-kafka-go/kafka"
 	"github.com/gocolly/colly/v2"
 )
 
@@ -57,35 +60,55 @@ func main() {
 		log.Fatal(err)
 	}
 
-	url = "https://www.cnbc.com/personal-finance/"
+	p, err := kafka.NewProducer(&kafka.ConfigMap{"bootstrap.servers": "localhost:9092"})
+	if err != nil {
+		panic(err)
+	}
 
-	c.OnHTML(".comp .mntl-taxonomysc-article-list-group .mntl-block", func(element *colly.HTMLElement) {
-		fmt.Println(element.DOM)
+	defer p.Close()
 
-		article := Article{
-			header:    "",
-			sub_title: "",
-			url:       "",
-			date:      "",
-			source:    "livemint.com",
-			img_url:   "",
-		}
+	topic := "myTopic"
+	for counter := 0; ; counter++ {
+		value := "Message #" + strconv.Itoa(counter)
+		p.Produce(&kafka.Message{
+			TopicPartition: kafka.TopicPartition{Topic: &topic, Partition: kafka.PartitionAny},
+			Value:          []byte(value),
+		}, nil)
 
-		element.ForEach(".Card-standardBreakerCard .Card-threeUpStackRectangleSquareMedia .Card-rectangleToLeftSquareMedia .Card-card", func(_ int, child *colly.HTMLElement) {
-			child.ForEach("a", func(_ int, child *colly.HTMLElement) {
-				child.ForEach("img", func(_ int, subChild *colly.HTMLElement) {
-					article.img_url = subChild.Attr("href")
-				})
-				article.url = child.Attr("href")
-				article.header = child.Text
-				fmt.Println(child.Text, child.Attr("href"))
+		fmt.Println("Sent:", value)
+		p.Flush(15 * 1000)
+		time.Sleep(1 * time.Second)
+	}
 
-				child.ForEach("card__title-text", func(_ int, subChild *colly.HTMLElement) {
-					article.img_url = subChild.Attr("href")
-				})
-			})
-			fmt.Println(child)
-		})
+	// url = "https://www.cnbc.com/personal-finance/"
+
+	// c.OnHTML(".comp .mntl-taxonomysc-article-list-group .mntl-block", func(element *colly.HTMLElement) {
+	// 	fmt.Println(element.DOM)
+
+	// 	article := Article{
+	// 		header:    "",
+	// 		sub_title: "",
+	// 		url:       "",
+	// 		date:      "",
+	// 		source:    "livemint.com",
+	// 		img_url:   "",
+	// 	}
+
+	// 	element.ForEach(".card__title-text", func(_ int, child *colly.HTMLElement) {
+	// 		child.ForEach("a", func(_ int, child *colly.HTMLElement) {
+	// 			child.ForEach("img", func(_ int, subChild *colly.HTMLElement) {
+	// 				article.img_url = subChild.Attr("href")
+	// 			})
+	// 			article.url = child.Attr("href")
+	// 			article.header = child.Text
+	// 			fmt.Println(child.Text, child.Attr("href"))
+
+	// 			child.ForEach("card__title-text", func(_ int, subChild *colly.HTMLElement) {
+	// 				article.img_url = subChild.Attr("href")
+	// 			})
+	// 		})
+	// 		fmt.Println(child)
+	// 	})
 
 		// count := 1
 		// element.ForEach("a", func(_ int, child *colly.HTMLElement) {
@@ -109,11 +132,11 @@ func main() {
 	})
 
 	// Visit the URL and start scraping
-	err = c.Visit(url)
-	if err != nil {
-		fmt.Println("error occured")
-		log.Fatal(err)
-	}
+	// err = c.Visit(url)
+	// if err != nil {
+	// 	fmt.Println("error occured")
+	// 	log.Fatal(err)
+	// }
 
 	// Access the parsed data after scraping
 	// for _, element := range parsedArticles {
