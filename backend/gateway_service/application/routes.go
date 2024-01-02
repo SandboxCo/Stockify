@@ -1,9 +1,10 @@
-package api
+package application
 
 import (
-	"github.com/SandboxCo/Humanity360/backend/database_service/handler"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
+
+	"github.com/SandboxCo/Humanity360/backend/gateway_service/handler"
 )
 
 func loadRoutes() *chi.Mux {

@@ -1,4 +1,4 @@
-package api
+package application
 
 import (
 	"context"
@@ -18,9 +18,9 @@ func New() *App {
 	app := &App{
 		router: loadRoutes(),
 		rdb: redis.NewClient(&redis.Options{
-			Addr:     "redis-10098.c267.us-east-1-4.ec2.cloud.redislabs.com:10098",
-			Password: "xGL03EufGJV8avQZPj7UyHEaFJrQGjor", // no password set
-			DB:       0,                                  // use default DB
+			Addr:     "arn:aws:elasticache:us-east-2:517914566534:serverlesscache:stock-data-cache",
+			Password: "", // no password set
+			DB:       0,  // use default DB
 		}),
 	}
 
@@ -70,4 +70,15 @@ func (a *App) Start(ctx context.Context) error {
 
 	return nil
 
+}
+
+func (a *App) Postdatabase(ctx context.Context) {
+	a.rdb.Set(ctx, "key2", "456", 0).Err()
+
+	val, err := a.rdb.Get(ctx, "key2").Result()
+	if err != nil {
+		fmt.Println("failed to start app", err)
+	}
+
+	fmt.Println("key1", val)
 }
