@@ -2,23 +2,33 @@ package main
 
 import (
 	"fmt"
-	"io/ioutil"
+	"io"
 	"log"
 	"net/http"
 	"os"
 )
 
 func main() {
-	response, err := http.Get("http://site.api.espn.com/apis/site/v2/sports/basketball/nba/news")
-
-	responseData, err := ioutil.ReadAll(response.Body)
+	//retrieve stock tickers
+	stockResponse, err := http.Get("https://api.polygon.io/v3/reference/tickers?active=true&apiKey=QPFs6luFf15cS9kaDOcGp9GwhzGh0482")
+	stockData, err := io.ReadAll(stockResponse.Body)
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println(string(responseData))
-
+	fmt.Println(string(stockData))
 	if err != nil {
 		fmt.Print(err.Error())
 		os.Exit(1)
 	}
+
+	// indicatorResponse, err := http.Get("https://api.polygon.io/v3/reference/tickers?active=true&apiKey=QPFs6luFf15cS9kaDOcGp9GwhzGh0482")
+	// indicatorData, err := io.ReadAll(indicatorResponse.Body)
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
+	// fmt.Println(string(indicatorData))
+	// if err != nil {
+	// 	fmt.Print(err.Error())
+	// 	os.Exit(1)
+	// }
 }
