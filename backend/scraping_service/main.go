@@ -129,8 +129,8 @@ func main() {
 		"bootstrap.servers": "pkc-921jm.us-east-2.aws.confluent.cloud:9092",
 		"security.protocol": "SASL_SSL",
 		"sasl.mechanisms":   "PLAIN",
-		"sasl.username":     "N5Z7Y6TAOZSDS4HZ",
-		"sasl.password":     "4u1M5DvvpnsBxryH9OI5zKa7kTrkDvKojIjvtjl/1WaB+6OYwgX/XehLzW9v1ZeV",
+		"sasl.username":     "NQFSATXTMWOITLUB",
+		"sasl.password":     "ptpsLG7ghr0KQD0nUrMg+ImPLnQCuXuJqKmL2/X4okiNubtngomL7Wz5hhIgExww",
 		// Add other configuration properties as needed
 	})
 
@@ -141,7 +141,7 @@ func main() {
 	defer p.Close()
 
 	//Topic to produce messages to
-	topic := "topic_0"
+	topic := "news_articles"
 
 	//Access the parsed data after scraping
 	for i, element := range parsedArticles {

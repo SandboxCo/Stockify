@@ -2,6 +2,7 @@ package application
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"net/http"
 	"time"
@@ -18,9 +19,8 @@ func New() *App {
 	app := &App{
 		router: loadRoutes(),
 		rdb: redis.NewClient(&redis.Options{
-			Addr:     "arn:aws:elasticache:us-east-2:517914566534:serverlesscache:stock-data-cache",
-			Password: "", // no password set
-			DB:       0,  // use default DB
+			Addr:     "redis-15195.c323.us-east-1-2.ec2.cloud.redislabs.com:15195",
+			Password: "aY8A0QKPg3N0BXvEX1gp3WpID54XACLM",
 		}),
 	}
 
@@ -72,13 +72,12 @@ func (a *App) Start(ctx context.Context) error {
 
 }
 
-func (a *App) Postdatabase(ctx context.Context) {
-	a.rdb.Set(ctx, "key2", "456", 0).Err()
+func (a *App) Postdb(ctx context.Context, key string, value json.RawMessage) {
+	a.rdb.Set(ctx, key, value, 0).Err()
+}
 
-	val, err := a.rdb.Get(ctx, "key2").Result()
-	if err != nil {
-		fmt.Println("failed to start app", err)
-	}
+func (a *App) Getdb(ctx context.Context, key string) string {
+	val, _ := a.rdb.Get(ctx, key).Result()
 
-	fmt.Println("key1", val)
+	return val
 }
