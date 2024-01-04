@@ -31,6 +31,7 @@ func main() {
 		"sasl.mechanisms":   "PLAIN",
 		"sasl.username":     "NQFSATXTMWOITLUB",
 		"sasl.password":     "ptpsLG7ghr0KQD0nUrMg+ImPLnQCuXuJqKmL2/X4okiNubtngomL7Wz5hhIgExww",
+		"group.id":          "your_consumer_group"
 	})
 
 	if err != nil {
