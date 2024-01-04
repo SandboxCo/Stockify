@@ -21,6 +21,15 @@ type Stock struct {
 	Date     string `json:"last_updated_utc"`
 }
 
+type Article struct {
+	Header   string `json:"header"`
+	Subtitle string `json:"sub_title"`
+	Url      string `json:"url"`
+	Date     string `json:"date"`
+	Source   string `json:"source"`
+	Imgurl   string `json:"img_url"`
+}
+
 func main() {
 	ctx := context.Background()
 
@@ -65,14 +74,24 @@ func main() {
 
 			switch e := ev.(type) {
 			case *kafka.Message:
-				fmt.Printf("Received message: %s\n", e.Value)
-				var stock Stock
-				err := json.Unmarshal(e.Value, &stock)
-				app.Postdb(ctx, stock.Ticker, e.Value)
-				if err != nil {
-					panic(err)
-				}
 
+				if *e.TopicPartition.Topic == "stock_tokens" {
+					fmt.Printf("Received stock %s\n", e.Value)
+					var stock Stock
+					err := json.Unmarshal(e.Value, &stock)
+					app.Postdb(ctx, stock.Ticker, e.Value)
+					if err != nil {
+						panic(err)
+					}
+				} else {
+					fmt.Printf("Received news article: %s\n", e.Value)
+					var article Article
+					err := json.Unmarshal(e.Value, &article)
+					app.Postdb(ctx, article.Header, e.Value)
+					if err != nil {
+						panic(err)
+					}
+				}
 			case kafka.Error:
 				fmt.Printf("Error: %v\n", e)
 			}
