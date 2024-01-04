@@ -8,14 +8,28 @@ import {
 
 import HomePage from "../src/components/pages/HomePage"
 
+import VerticalNav from "./components/VerticalNav";
+
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" Component={HomePage}/>
+    <>
+      <div>
+        
+      </div>
+      <div style={{display:"flex", }}>
+        <div style={{width: "12vw"}}>
+          <VerticalNav/>
+        </div>
+        <div style={{width: "88vw"}}>
+          <Router>
+            <Routes>
+              <Route path="/" Component={HomePage}/>
 
-      </Routes>
-    </Router>
+            </Routes>
+          </Router>
+        </div>
+      </div>
+    </>
   );
 }
 

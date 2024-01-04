@@ -10,8 +10,8 @@ import TableRow from '@mui/material/TableRow';
 
 
 const columns = [
-    { id: 'name', label: 'No.', minWidth: 170 },
-    { id: 'stock', label: 'Symbol/StockName', minWidth: 100 },
+    { id: 'symbol', label: 'Symbol', minWidth: 120 },
+    { id: 'stock', label: 'Company', minWidth: 60 },
     {
       id: 'price',
       label: 'Price',
@@ -38,7 +38,7 @@ const columns = [
 
   function createData(name, code, population, size) {
     const density = population / size;
-    return { name, stock:code, price:population, inc_dec:size, change:density };
+    return { symbol:name, stock:code, price:population, inc_dec:size, change:density };
   }  
 
 function TickerTable(){
@@ -61,7 +61,7 @@ function TickerTable(){
     ];
 
     const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(10);
+    const [rowsPerPage, setRowsPerPage] = React.useState(20);
   
     const handleChangePage = (event, newPage) => {
       setPage(newPage);
@@ -73,8 +73,8 @@ function TickerTable(){
     };
 
     return (
-        <TableContainer sx={{ height: "100%", backgroundColor: "white", borderRadius: 7}}>
-            <Table stickyHeader aria-label="sticky table">
+        <TableContainer sx={{ height: "100%", backgroundColor: "white", borderRadius: 2, overflowX:"none"}}>
+            <Table stickyHeader size="small" aria-label="a dense table">
             <TableHead>
                 <TableRow>
                 {columns.map((column) => (
@@ -93,7 +93,7 @@ function TickerTable(){
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row) => {
                     return (
-                    <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+                    <TableRow hover role="checkbox" tabIndex={-1} key={row.code} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                         {columns.map((column) => {
                         const value = row[column.id];
                         return (
@@ -111,7 +111,7 @@ function TickerTable(){
             </Table>
 
             <TablePagination
-                rowsPerPageOptions={[10, 25, 100]}
+                rowsPerPageOptions={[20]}
                 component="div"
                 count={rows.length}
                 rowsPerPage={rowsPerPage}
