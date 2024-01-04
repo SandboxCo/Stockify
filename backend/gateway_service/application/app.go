@@ -2,7 +2,6 @@ package application
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
 	"net/http"
 	"time"
@@ -72,7 +71,7 @@ func (a *App) Start(ctx context.Context) error {
 
 }
 
-func (a *App) Postdb(ctx context.Context, key string, value json.RawMessage) {
+func (a *App) Postdb(ctx context.Context, key string, value []byte) {
 	a.rdb.Set(ctx, key, value, 0).Err()
 }
 

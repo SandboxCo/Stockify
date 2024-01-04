@@ -2,28 +2,34 @@ package main
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
-	"strings"
+	"os"
+	"os/signal"
+	"syscall"
 
 	"github.com/SandboxCo/Humanity360/backend/gateway_service/application"
 	"github.com/confluentinc/confluent-kafka-go/kafka"
 )
 
-func processMessage(msg *kafka.Message) {
-	message := string(msg.Value)
-	wordCount := strings.Count(message, "Message")
-	fmt.Printf("Received message: %s - Word count: %d\n", message, wordCount)
+// Stock represents a stock entity
+type Stock struct {
+	Ticker   string `json:"ticker"`
+	Name     string `json:"name"`
+	Type     string `json:"type"`
+	Currency string `json:"currency_name"`
+	Date     string `json:"last_updated_utc"`
 }
 
 func main() {
-	//	ctx := context.Background()
+	ctx := context.Background()
 
 	app := application.New()
 
-	err := app.Start(context.TODO())
-	if err != nil {
-		fmt.Println("failed to start app", err)
-	}
+	//err := app.Start(context.TODO())
+	// if err != nil {
+	// 	fmt.Println("failed to start app", err)
+	// }
 
 	c, err := kafka.NewConsumer(&kafka.ConfigMap{
 		"bootstrap.servers": "pkc-921jm.us-east-2.aws.confluent.cloud:9092",
@@ -31,7 +37,7 @@ func main() {
 		"sasl.mechanisms":   "PLAIN",
 		"sasl.username":     "NQFSATXTMWOITLUB",
 		"sasl.password":     "ptpsLG7ghr0KQD0nUrMg+ImPLnQCuXuJqKmL2/X4okiNubtngomL7Wz5hhIgExww",
-		"group.id":          "your_consumer_group"
+		"group.id":          "your_consumer_group",
 	})
 
 	if err != nil {
@@ -39,26 +45,39 @@ func main() {
 	}
 
 	fmt.Println("got here")
-	c.SubscribeTopics([]string{"topic_0"}, nil)
+	topics := []string{"stock_tokens", "news_articles"}
+	c.SubscribeTopics(topics, nil)
 
-	// sigchan := make(chan os.Signal, 1)
-	// signal.Notify(sigchan, syscall.SIGINT, syscall.SIGTERM)
+	sigchan := make(chan os.Signal, 1)
+	signal.Notify(sigchan, syscall.SIGINT, syscall.SIGTERM)
 
-	// for {
-	// 	select {
-	// 	case sig := <-sigchan:
-	// 		fmt.Printf("Caught signal %v: terminating\n", sig)
-	// 		c.Close()
-	// 		return
-	// 	default:
-	// 		msg, err := c.ReadMessage(-1)
-	// 		if err == nil {
-	// 			processMessage(msg)
-	// 		} else {
-	// 			fmt.Printf("Consumer error: %v (%v)\n", err, msg)
-	// 		}
-	// 	}
-	// }
+	run := true
+	for run {
+		select {
+		case sig := <-sigchan:
+			fmt.Printf("Caught signal %v: terminating\n", sig)
+			run = false
+		default:
+			ev := c.Poll(100)
+			if ev == nil {
+				continue
+			}
 
-	// /	app.Postdb(ctx)
+			switch e := ev.(type) {
+			case *kafka.Message:
+				fmt.Printf("Received message: %s\n", e.Value)
+				var stock Stock
+				err := json.Unmarshal(e.Value, &stock)
+				app.Postdb(ctx, stock.Ticker, e.Value)
+				if err != nil {
+					panic(err)
+				}
+
+			case kafka.Error:
+				fmt.Printf("Error: %v\n", e)
+			}
+		}
+	}
+
+	c.Close()
 }
