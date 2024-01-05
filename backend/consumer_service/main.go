@@ -73,7 +73,7 @@ func main() {
 					fmt.Printf("Received stock %s\n", e.Value)
 					var stock Stock
 					err := json.Unmarshal(e.Value, &stock)
-					app.Postdb(ctx, stock.Ticker, e.Value)
+					app.Postdb(ctx, "stock:"+stock.Ticker, e.Value)
 					if err != nil {
 						panic(err)
 					}
@@ -81,7 +81,7 @@ func main() {
 					fmt.Printf("Received news article: %s\n", e.Value)
 					var article Article
 					err := json.Unmarshal(e.Value, &article)
-					app.Postdb(ctx, article.Header, e.Value)
+					app.Postdb(ctx, "article:"+article.Header, e.Value)
 					if err != nil {
 						panic(err)
 					}
