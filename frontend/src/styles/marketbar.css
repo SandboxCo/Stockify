@@ -1,0 +1,27 @@
+/* StockTicker.css */
+
+.stock-ticker-container {
+    overflow: hidden;
+    width: 100%;
+    display:"flex"
+  }
+  
+  .stock-ticker {
+    display: flex;
+    justify-content: space-between; 
+    align-items: 'center';
+    animation: scrollTicker 20s linear infinite;
+  }
+  
+  .stock-item {
+    margin-right: 30px; /* Adjust the margin between items */
+  }
+  
+  @keyframes scrollTicker {
+    0% {
+      transform: translateX(-100%); /* Start from the left side */
+    }
+    100% {
+      transform: translateX(100%); /* Move towards the right */
+    }
+  }

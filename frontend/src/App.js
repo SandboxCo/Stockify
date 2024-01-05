@@ -6,30 +6,32 @@ import {
   Route
 } from "react-router-dom"
 
-import HomePage from "../src/components/pages/HomePage"
 
 import VerticalNav from "./components/VerticalNav";
+import HorizontalNav from "../src/components/HorizontalNav"
+import StockOverview from "./components/pages/StockOverview";
 
 function App() {
   return (
-    <>
-      <div>
-        
+    <Router>
+
+    <div style={{width:"100vw", height: "100vh"}}>
+      <div style={{height: "8vh", width:"100%"}}>
+        <HorizontalNav/>
       </div>
-      <div style={{display:"flex", }}>
-        <div style={{width: "12vw"}}>
+      <div style={{display:"flex", height: "92vh"}}>
+        <div style={{width: "11vw"}}>
           <VerticalNav/>
         </div>
-        <div style={{width: "88vw"}}>
-          <Router>
+        <div style={{width: "89vw"}}>
             <Routes>
-              <Route path="/" Component={HomePage}/>
-
+              <Route path="/" Component={StockOverview}/>
             </Routes>
-          </Router>
         </div>
       </div>
-    </>
+    </div>
+    </Router>
+
   );
 }
 

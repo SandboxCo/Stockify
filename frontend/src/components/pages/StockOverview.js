@@ -3,7 +3,19 @@ import React from "react"
 import TickerTable from "../TickerTable"
 import Chart from "react-apexcharts";
 
-function HomePage(){
+import QuoteOverview from "../QuoteOverview"
+import StockTag from "../StockTag";
+import ArticleGrid from "../ArticleGrid";
+
+import DateCard from "../DateCard"
+
+import MarketBar from "../MarketBar";
+import NewsHeader from "../NewsHeader";
+
+import SearchBar from "../SearchBar";
+import Watchlist from "../Watchlist";
+
+function StockOverview(){
     const series = [{
         data: [{
             x: new Date(1538778600000),
@@ -248,39 +260,75 @@ function HomePage(){
         ]
       }]
 
-    return (
-        <div style={{display:"flex", justifyContent:"space-between", height: "100vh", backgroundColor: "#eee", margin: "0 auto", overflowY:"hidden"}}>
-            <div style={{flexDirection:"column", display:"flex", width:"59vw"}}>
-                <div style={{height: "15%"}}>
+    const handleSearch = (searchTerm) => {
+      console.log('Performing search with term:', searchTerm);
+      // Add your search logic here
+    };
 
+    return (
+        <div style={{display:"flex", flexDirection:"column", height:"100%", overflowY:"hidden", overflowX: "hidden", zIndex:-1}}>
+            <div style={{display:"flex", justifyContent:"space-between", height:"96%", backgroundColor: "#eee"}}>  
+                <div style={{flexDirection:"column", display:"flex", width:"55%", boxSizing:"border-box", padding:20, height:"100%"}}>
+                    <div style={{height: "60%",  display:"flex", flexDirection:"column", width:"100%" }}>
+                        <div style={{height:"12%", display:"flex", justifyContent: "space-between", alignItems:"center", boxSizing:"border-box", padding:4}}>
+                            <StockTag logoURL={""} company={"Apple Inc."} tag="AAPL" price="423.3" />
+                            <DateCard/>
+                        </div>
+                        <div style={{height:"88%", display:"flex", justifyContent:"space-between"}}>
+                            <div style={{width:"70%", height:"100%"}}>
+                                <Chart options={{chart: {
+                                                        type: 'candlestick',
+                                                        height: "50%",
+                                                        background: "white",
+                                                        borderRadius: 10
+                                                        },
+                                                xaxis: {
+                                                        type: 'datetime'
+                                                        },
+                                                yaxis: {
+                                                        tooltip: {
+                                                            enabled: true
+                                                        }
+                                                        },
+                                                theme: {
+                                                    palette: 'palette4' // upto palette10
+                                                    }
+                                                }}
+                                    series={series} type="candlestick" height={"100%"} />
+                                </div>
+                                <div style={{width:"27%", heigth:"100%"}}>
+                                    <QuoteOverview/>
+                                </div>
+                        </div>
+                    </div>
+                    <div style={{height:"40%", display:"flex", justifyContent:"space-between", boxSizing:"border-box", padding:10}}>
+                        <div style={{width:"60%", boxSizing:"border-box"}}>
+                            <div style={{height:"10%"}}>
+                                <NewsHeader/>
+                            </div>
+                            <div style={{height:"90%"}}>
+                                <ArticleGrid/>
+                            </div>
+                        </div>
+                        <div style={{width:"40%", height:"100%", boxSizing:"border-box", padding:10}}>
+                          <Watchlist/>
+                        </div>
+                    </div>
                 </div>
-                <div style={{height:"85%", margin: 20}}>
-                    <TickerTable/>
+                <div style={{width: "45%", height:"100%", boxSizing:"border-box", padding:10, display:"flex", flexDirection:"column", justifyContent:"center"}}>
+                    <div style={{height:"5%"}}>
+                      <SearchBar/>
+                    </div>
+                    <div style={{height:"90%", marginTop:15}}>
+                      <TickerTable/>
+                    </div>
                 </div>
             </div>
-            <div style={{width: "40vw", margin: 20}}>
-                <Chart options={{chart: {
-                                          type: 'candlestick',
-                                          height: "50%",
-                                          background: "white",
-                                          borderRadius: 10
-                                        },
-                                 xaxis: {
-                                          type: 'datetime'
-                                        },
-                                 yaxis: {
-                                          tooltip: {
-                                            enabled: true
-                                          }
-                                        },
-                                theme: {
-                                    palette: 'palette4' // upto palette10
-                                    }
-                                }}
-                    series={series} type="candlestick" height={350} />
+            <div style={{height:"4%", width:"100%"}}>
+                <MarketBar/>
             </div>
         </div>
     )
 }
 
-export default HomePage
+export default StockOverview

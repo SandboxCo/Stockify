@@ -10,26 +10,26 @@ import TableRow from '@mui/material/TableRow';
 
 
 const columns = [
-    { id: 'symbol', label: 'Symbol', minWidth: 120 },
+    { id: 'symbol', label: 'Symbol', minWidth: 80 },
     { id: 'stock', label: 'Company', minWidth: 60 },
     {
       id: 'price',
       label: 'Price',
-      minWidth: 170,
+      minWidth: 70,
       align: 'right',
       format: (value) => value.toLocaleString('en-US'),
     },
     {
       id: 'inc_dec',
       label: 'Inc/Dec',
-      minWidth: 170,
+      minWidth: 90,
       align: 'right',
       format: (value) => value.toLocaleString('en-US'),
     },
     {
       id: 'change',
       label: '%Change',
-      minWidth: 170,
+      minWidth: 80,
       align: 'right',
       format: (value) => value.toFixed(2),
     },
@@ -73,7 +73,7 @@ function TickerTable(){
     };
 
     return (
-        <TableContainer sx={{ height: "100%", backgroundColor: "white", borderRadius: 2, overflowX:"none"}}>
+        <TableContainer sx={{ height: "100%", backgroundColor: "white", borderRadius: 3, overflowX:"none"}}>
             <Table stickyHeader size="small" aria-label="a dense table">
             <TableHead>
                 <TableRow>
@@ -81,7 +81,7 @@ function TickerTable(){
                     <TableCell
                     key={column.id}
                     align={column.align}
-                    style={{ minWidth: column.minWidth }}
+                    style={{ minWidth: column.minWidth, fontFamily:"Montserrat" }}
                     >
                     {column.label}
                     </TableCell>
@@ -97,7 +97,7 @@ function TickerTable(){
                         {columns.map((column) => {
                         const value = row[column.id];
                         return (
-                            <TableCell key={column.id} align={column.align}>
+                            <TableCell key={column.id} align={column.align} sx={{fontFamily:"Montserrat"}}>
                             {column.format && typeof value === 'number'
                                 ? column.format(value)
                                 : value}
