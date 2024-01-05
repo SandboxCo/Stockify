@@ -1,5 +1,4 @@
-import React from "react"
-
+import React, { useState } from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -7,122 +6,189 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
-
+import Button from '@mui/material/Button';
+import Input from '@mui/material/Input';
+import { FaMagnifyingGlass } from "react-icons/fa6";
+import { styled } from '@mui/system';
 
 const columns = [
-    { id: 'symbol', label: 'Symbol', minWidth: 80 },
-    { id: 'stock', label: 'Company', minWidth: 60 },
-    {
-      id: 'price',
-      label: 'Price',
-      minWidth: 70,
-      align: 'right',
-      format: (value) => value.toLocaleString('en-US'),
-    },
-    {
-      id: 'inc_dec',
-      label: 'Inc/Dec',
-      minWidth: 90,
-      align: 'right',
-      format: (value) => value.toLocaleString('en-US'),
-    },
-    {
-      id: 'change',
-      label: '%Change',
-      minWidth: 80,
-      align: 'right',
-      format: (value) => value.toFixed(2),
-    },
-  ];
+  { id: 'symbol', label: 'Symbol', minWidth: 60 },
+  { id: 'company', label: 'Company', minWidth: 100 },
+  {
+    id: 'currentPrice',
+    label: 'Current Price',
+    minWidth: 80,
+    align: 'right',
+    format: (value) => `$${value.toFixed(2)}`,
+  },
+  {
+    id: 'volume',
+    label: 'Volume',
+    minWidth: 70,
+    align: 'right',
+    format: (value) => value.toLocaleString(),
+  },
+  {
+    id: 'change',
+    label: 'Change',
+    minWidth: 70,
+    align: 'right',
+    format: (value) => `$${value.toFixed(2)}`,
+  },
+  {
+    id: 'actions',
+    label: 'Actions',
+    minWidth: 80,
+    align: 'center',
+  },
+];
 
+const TickerTable = ({currentlyWatched, setCurrentlyWatched, stocks, watchlist, setWatchlist}) => {
+  const [searchTerm, setSearchTerm] = useState('');
 
-  function createData(name, code, population, size) {
-    const density = population / size;
-    return { symbol:name, stock:code, price:population, inc_dec:size, change:density };
-  }  
+  const handleAddToWatchlist = (symbol) => {
+    if (!watchlist.includes(symbol)){
+      setWatchlist([...watchlist, symbol]);
+    }
+  };
 
-function TickerTable(){
-    const rows = [
-        createData('India', 'IN', 1324171354, 3287263),
-        createData('China', 'CN', 1403500365, 9596961),
-        createData('Italy', 'IT', 60483973, 301340),
-        createData('United States', 'US', 327167434, 9833520),
-        createData('Canada', 'CA', 37602103, 9984670),
-        createData('Australia', 'AU', 25475400, 7692024),
-        createData('Germany', 'DE', 83019200, 357578),
-        createData('Ireland', 'IE', 4857000, 70273),
-        createData('Mexico', 'MX', 126577691, 1972550),
-        createData('Japan', 'JP', 126317000, 377973),
-        createData('France', 'FR', 67022000, 640679),
-        createData('United Kingdom', 'GB', 67545757, 242495),
-        createData('Russia', 'RU', 146793744, 17098246),
-        createData('Nigeria', 'NG', 200962417, 923768),
-        createData('Brazil', 'BR', 210147125, 8515767),
-    ];
+  const handleRowClick = (symbol, company, currentPrice) => {
+    setCurrentlyWatched({ symbol, company, currentPrice });
+  };
 
-    const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(20);
-  
-    const handleChangePage = (event, newPage) => {
-      setPage(newPage);
-    };
-  
-    const handleChangeRowsPerPage = (event) => {
-      setRowsPerPage(+event.target.value);
-      setPage(0);
-    };
+  const handleSearch = (prefix) => {
+    setSearchTerm(prefix);
+    console.log(filteredRows, prefix)
+  };
 
-    return (
-        <TableContainer sx={{ height: "100%", backgroundColor: "white", borderRadius: 3, overflowX:"none"}}>
-            <Table stickyHeader size="small" aria-label="a dense table">
-            <TableHead>
-                <TableRow>
-                {columns.map((column) => (
-                    <TableCell
-                    key={column.id}
-                    align={column.align}
-                    style={{ minWidth: column.minWidth, fontFamily:"Montserrat" }}
-                    >
-                    {column.label}
-                    </TableCell>
-                ))}
-                </TableRow>
-            </TableHead>
-            <TableBody>
-                {rows
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row) => {
-                    return (
-                    <TableRow hover role="checkbox" tabIndex={-1} key={row.code} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                        {columns.map((column) => {
-                        const value = row[column.id];
-                        return (
-                            <TableCell key={column.id} align={column.align} sx={{fontFamily:"Montserrat"}}>
-                            {column.format && typeof value === 'number'
-                                ? column.format(value)
-                                : value}
-                            </TableCell>
-                        );
-                        })}
-                    </TableRow>
-                    );
-                })}
-            </TableBody>
-            </Table>
+  const filteredRows = stocks.filter((row) =>
+    row.company.toLowerCase().startsWith(searchTerm.toLowerCase())
+  );
 
-            <TablePagination
-                rowsPerPageOptions={[20]}
-                component="div"
-                count={rows.length}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                onPageChange={handleChangePage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-            />
+  const renderTableRows = () => {
+    return filteredRows.map((row) => (
+      <TableRow
+        key={row.symbol}
+        style={{
+          backgroundColor: currentlyWatched.symbol === row.symbol ? 'lightblue' : 'white',
+          cursor: 'pointer',
+        }}
+        onClick={() => handleRowClick(row.symbol, row.company, row.currentPrice)}
+      >
+        {columns.map((column) => {
+          const value = row[column.id];
+          return (
+            <TableCell
+              key={column.id}
+              align={column.align}
+              sx={{
+                fontFamily: 'Montserrat',
+                fontSize: '0.8rem',
+                padding: '8px',
+                color: column.id === 'change' ? (value >= 0 ? 'green' : 'red') : 'inherit',
+                fontWeight: column.id === "symbol" ? 600 : 300
+              }}
+            >
+              {column.id === 'actions' ? (
+                <button
+                  style={{
+                    fontWeight: 300, 
+                    color:"white", 
+                    border: "none", 
+                    backgroundColor:"#007BFF", 
+                    fontSize: 11, 
+                    width: 70, 
+                    padding:4, 
+                    fontFamily:"Montserrat",
+                    cursor: "pointer"
+                  }}
+                  size="small"
+                  onClick={() => handleAddToWatchlist(row.symbol)}
+                >
+                  Add to <br/>Watchlist
+                </button>
+              ) : column.format && typeof value === 'number' ? (
+                column.format(value)
+              ) : (
+                value
+              )}
+            </TableCell>
+          );
+        })}
+      </TableRow>
+    ));
+  };
+
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(+event.target.value);
+    setPage(0);
+  };
+
+  return (
+    <div style={{ width: '100%', height:"100%"}}>
+      <div style={{display: "flex", alignItems: "center", width:"100%",  height:"10%"}}>
+        <input
+          type="text"
+          placeholder="Search Companies..."
+          value={searchTerm}
+          style={{padding:"8px",width:"100%",border:"1px solid #ccc", borderRadius:4,marginRight:4, fontFamily:"Montserrat", outline:"none"}}
+          onChange={(e) => handleSearch(e.target.value)}
+        />
+        <button style={{padding:"8px",backgroundColor:"#007bff",color:"#fff",border: "none",borderRadius:"4px",cursor: "pointer"}}>
+        {/* Use your custom search symbol here */}
+        <span role="img" aria-label="Search">
+            <FaMagnifyingGlass/>
+        </span>
+        </button>
+     </div>
+      <TableContainer sx={{backgroundColor: 'white', borderRadius: 3, overflowX: 'none', height:"90%"}}>
+        <Table stickyHeader size="small" aria-label="a dense table">
+          <TableHead>
+            <TableRow>
+              {columns.map((column) => (
+                <TableCell
+                  key={column.id}
+                  align={column.align}
+                  sx={{
+                    minWidth: column.minWidth,
+                    fontFamily: 'Montserrat',
+                    fontSize: '0.8rem',
+                    fontWeight: 'bold',
+                    padding: '8px',
+                  }}
+                >
+                  {column.label}
+                </TableCell>
+              ))}
+            </TableRow>
+          </TableHead>
+          <TableBody>{renderTableRows()}</TableBody>
+        </Table>
+
+        <TablePagination
+          rowsPerPageOptions={[5, 10, 20]}
+          component="div"
+          count={filteredRows.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+          sx={{
+            position: 'sticky',
+            bottom: 0,
+            backgroundColor: 'white',
+          }}
+        />
       </TableContainer>
+    </div>
+  );
+};
 
-
-    )
-}
-
-export default TickerTable
+export default TickerTable;

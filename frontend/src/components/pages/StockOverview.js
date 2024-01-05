@@ -1,4 +1,4 @@
-import React from "react"
+import React, {useState} from "react"
 
 import TickerTable from "../TickerTable"
 import Chart from "react-apexcharts";
@@ -12,8 +12,8 @@ import DateCard from "../DateCard"
 import MarketBar from "../MarketBar";
 import NewsHeader from "../NewsHeader";
 
-import SearchBar from "../SearchBar";
 import Watchlist from "../Watchlist";
+import { useData } from "../../providers/DataProvider";
 
 function StockOverview(){
     const series = [{
@@ -260,18 +260,21 @@ function StockOverview(){
         ]
       }]
 
-    const handleSearch = (searchTerm) => {
-      console.log('Performing search with term:', searchTerm);
-      // Add your search logic here
-    };
+    const {stocks, watchlist, updateWatchlist} = useData()
+
+    const [currentlyWatched, setCurrentlyWatched] = useState({
+      symbol: stocks[0].symbol,
+      company: stocks[0].company,
+      currentPrice:stocks[0].currentPrice,
+    });
 
     return (
         <div style={{display:"flex", flexDirection:"column", height:"100%", overflowY:"hidden", overflowX: "hidden", zIndex:-1}}>
             <div style={{display:"flex", justifyContent:"space-between", height:"96%", backgroundColor: "#eee"}}>  
-                <div style={{flexDirection:"column", display:"flex", width:"55%", boxSizing:"border-box", padding:20, height:"100%"}}>
+                <div style={{flexDirection:"column", display:"flex", width:"55%", boxSizing:"border-box", padding:15, height:"100%"}}>
                     <div style={{height: "60%",  display:"flex", flexDirection:"column", width:"100%" }}>
                         <div style={{height:"12%", display:"flex", justifyContent: "space-between", alignItems:"center", boxSizing:"border-box", padding:4}}>
-                            <StockTag logoURL={""} company={"Apple Inc."} tag="AAPL" price="423.3" />
+                            <StockTag logoURL={""} company={currentlyWatched.company} symbol={currentlyWatched.symbol} price={currentlyWatched.currentPrice} />
                             <DateCard/>
                         </div>
                         <div style={{height:"88%", display:"flex", justifyContent:"space-between"}}>
@@ -310,18 +313,13 @@ function StockOverview(){
                                 <ArticleGrid/>
                             </div>
                         </div>
-                        <div style={{width:"40%", height:"100%", boxSizing:"border-box", padding:10}}>
+                        <div style={{width:"40%", height:"100%", boxSizing:"border-box", paddingLeft:10, paddingTop:20}}>
                           <Watchlist/>
                         </div>
                     </div>
                 </div>
-                <div style={{width: "45%", height:"100%", boxSizing:"border-box", padding:10, display:"flex", flexDirection:"column", justifyContent:"center"}}>
-                    <div style={{height:"5%"}}>
-                      <SearchBar/>
-                    </div>
-                    <div style={{height:"90%", marginTop:15}}>
-                      <TickerTable/>
-                    </div>
+                <div style={{width: "45%", height:"100%", boxSizing:"border-box", padding:15}}>
+                  <TickerTable currentlyWatched={currentlyWatched} setCurrentlyWatched={setCurrentlyWatched} stocks={stocks} watchlist={watchlist} setWatchlist={updateWatchlist}/>
                 </div>
             </div>
             <div style={{height:"4%", width:"100%"}}>
