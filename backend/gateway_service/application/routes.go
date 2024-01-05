@@ -1,23 +1,23 @@
 package application
 
 import (
+	"context"
+
+	"github.com/SandboxCo/Humanity360/backend/gateway_service/redis"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
-
-	"github.com/SandboxCo/Humanity360/backend/gateway_service/handler"
 )
 
-func loadRoutes() *chi.Mux {
+func loadRoutes(ctx context.Context) *chi.Mux {
 	router := chi.NewRouter()
 	router.Use(middleware.Logger)
 
-	databaseHandler := &handler.Database{}
+	databaseHandler := redis.New(ctx)
 
-	router.Post("/", databaseHandler.Create)
-	router.Get("/", databaseHandler.List)
-	router.Get("/{id}", databaseHandler.GetById)
-	router.Put("/{id}", databaseHandler.UpdateByID)
-	router.Delete("/{id}", databaseHandler.DeleteByID)
+	router.Get("/articles", databaseHandler.GetArticles)
+	router.Get("/stocks", databaseHandler.GetStocks)
+	// router.Put("/{id}", databaseHandler.UpdateByID)
+	// router.Delete("/{id}", databaseHandler.DeleteByID)
 
 	return router
 }

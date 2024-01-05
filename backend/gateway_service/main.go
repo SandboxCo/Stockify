@@ -8,9 +8,8 @@ import (
 )
 
 func main() {
-	//ctx := context.Background()
-
-	app := application.New()
+	ctx := context.Background()
+	app := application.New(ctx)
 
 	err := app.Start(context.TODO())
 	if err != nil {
