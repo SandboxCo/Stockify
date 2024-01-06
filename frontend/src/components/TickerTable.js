@@ -12,26 +12,26 @@ import { FaMagnifyingGlass } from "react-icons/fa6";
 import { styled } from '@mui/system';
 
 const columns = [
-  { id: 'ticker', label: 'Ticker', minWidth: 60 },
-  { id: 'name', label: 'Company', minWidth: 100 },
+  { id: 'ticker', label: 'Ticker', minWidth: 50 },
+  { id: 'name', label: 'Company', minWidth: 50 },
   {
     id: 'portfolio',
-    label: 'Portfolio %',
-    minWidth: 80,
+    label: 'Portfolio',
+    minWidth: 60,
     align: 'right',
     format: (value) => `$${value.toFixed(2)}`,
   },
   {
     id: 'price',
     label: 'Price',
-    minWidth: 70,
+    minWidth: 50,
     align: 'right',
     format: (value) => value.toLocaleString(),
   },
   {
     id: 'Change',
     label: 'Change',
-    minWidth: 70,
+    minWidth: 60,
     align: 'right',
     format: (value) => `$${value.toFixed(2)}`,
   },
@@ -42,7 +42,7 @@ const columns = [
     align: 'center',
   },
   {
-    id: '',
+    id: 'actions',
     label: 'Actions',
     minWidth: 80,
     align: 'center',
@@ -89,7 +89,7 @@ const TickerTable = ({currentlyWatched, setCurrentlyWatched, stocks, watchlist, 
               align={column.align}
               sx={{
                 fontFamily: 'Montserrat',
-                fontSize: '0.8rem',
+                fontSize: '0.75rem',
                 padding: '8px',
                 color: column.id === 'Change' ? (value >= 0 ? 'green' : 'red') : 'inherit',
                 fontWeight: column.id === "ticker" ? 600 : 300
