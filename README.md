@@ -4,7 +4,7 @@ Stockify is a real-time stock dashboard application that provides users with up-
 
 ![Screenshot](readmedocs/figma.png)
 ![Screenshot](readmedocs/mainpage.png)
-![Screenshot]([readmedocs/figma.png](https://github.com/SandboxCo/Humanity360/blob/1e17fcaa735354ee4d9c78a18b65b6208193dadb/readmedocs/news%20articles%20kafka.png))
+![Screenshot](readmedocs/newsarticleskafka.png)
 
 ## Table of Contents
 
