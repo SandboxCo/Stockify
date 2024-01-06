@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"log"
 	"strconv"
-	"time"
 
 	"github.com/confluentinc/confluent-kafka-go/v2/kafka"
 	"github.com/gocolly/colly/v2"
@@ -13,13 +12,12 @@ import (
 
 // Stock represents a stock entity
 type Stock struct {
-	Ticker        string    `json:"ticker"`
-	Name          string    `json:"name"`
-	Portfolio     string    `json:"portfolio"`
-	Price         string    `json:"price"`
-	Change        string    `json:change`
-	Percentchange string    `json:"percentchange"`
-	Date          time.Time `json:"last_updated_utc"`
+	Ticker        string `json:"ticker"`
+	Name          string `json:"name"`
+	Portfolio     string `json:"portfolio"`
+	Price         string `json:"price"`
+	Change        string `json:change`
+	Percentchange string `json:"percentchange"`
 }
 
 // StockResponse represents the JSON response structure
@@ -44,7 +42,6 @@ func main() {
 			Price:         "",
 			Change:        "",
 			Percentchange: "",
-			Date:          time.Now(),
 		}
 
 		element.ForEach("tr", func(_ int, child *colly.HTMLElement) {

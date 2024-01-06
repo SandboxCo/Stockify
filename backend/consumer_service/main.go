@@ -7,7 +7,6 @@ import (
 	"os"
 	"os/signal"
 	"syscall"
-	"time"
 
 	"github.com/SandboxCo/Humanity360/backend/consumer_service/application"
 	"github.com/confluentinc/confluent-kafka-go/kafka"
@@ -23,13 +22,12 @@ import (
 // }
 
 type Stock struct {
-	Ticker        string    `json:"ticker"`
-	Name          string    `json:"name"`
-	Portfolio     string    `json:"portfolio"`
-	Price         string    `json:"price"`
-	Change        string    `json:change`
-	Percentchange string    `json:"percentchange"`
-	Date          time.Time `json:"last_updated_utc"`
+	Ticker        string `json:"ticker"`
+	Name          string `json:"name"`
+	Portfolio     string `json:"portfolio"`
+	Price         string `json:"price"`
+	Change        string `json:change`
+	Percentchange string `json:"percentchange"`
 }
 
 type Article struct {
