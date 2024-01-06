@@ -20,7 +20,7 @@ func New(ctx context.Context) *Server {
 
 func (a *Server) Start(ctx context.Context) error {
 	server := &http.Server{
-		Addr:    ":3000",
+		Addr:    ":8081",
 		Handler: a.router,
 	}
 

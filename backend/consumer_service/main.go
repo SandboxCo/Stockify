@@ -7,18 +7,29 @@ import (
 	"os"
 	"os/signal"
 	"syscall"
+	"time"
 
 	"github.com/SandboxCo/Humanity360/backend/consumer_service/application"
 	"github.com/confluentinc/confluent-kafka-go/kafka"
 )
 
 // Stock represents a stock entity
+// type Stock struct {
+// 	Ticker   string `json:"ticker"`
+// 	Name     string `json:"name"`
+// 	Type     string `json:"type"`
+// 	Currency string `json:"currency_name"`
+// 	Date     string `json:"last_updated_utc"`
+// }
+
 type Stock struct {
-	Ticker   string `json:"ticker"`
-	Name     string `json:"name"`
-	Type     string `json:"type"`
-	Currency string `json:"currency_name"`
-	Date     string `json:"last_updated_utc"`
+	Ticker        string    `json:"ticker"`
+	Name          string    `json:"name"`
+	Portfolio     string    `json:"portfolio"`
+	Price         string    `json:"price"`
+	Change        string    `json:change`
+	Percentchange string    `json:"percentchange"`
+	Date          time.Time `json:"last_updated_utc"`
 }
 
 type Article struct {
