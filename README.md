@@ -1,10 +1,7 @@
 # Stockify - Real-Time Stock Dashboard
 
 Stockify is a real-time stock dashboard application that provides users with up-to-date stock data and related news articles. The application is built using Golang for the backend, React for the frontend with Material styling, and utilizes a Kafka pipeline hosted on Confluent for efficient data processing. Deployments are orchestrated with AWS, Kubernetes, and Docker.
-
-![Screenshot](readmedocs/figma.png)
 ![Screenshot](readmedocs/mainpage.png)
-![Screenshot](readmedocs/newsarticleskafka.png)
 
 ## Table of Contents
 
@@ -44,6 +41,8 @@ The Stockify application is composed of multiple microservices orchestrated in a
   - AWS for cloud infrastructure.
   - Kubernetes for container orchestration.
   - Docker for containerization.
+
+![Screenshot](readmedocs/figma.png)
 
 ## Usage
 
