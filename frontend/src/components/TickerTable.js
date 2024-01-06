@@ -12,31 +12,37 @@ import { FaMagnifyingGlass } from "react-icons/fa6";
 import { styled } from '@mui/system';
 
 const columns = [
-  { id: 'symbol', label: 'Symbol', minWidth: 60 },
-  { id: 'company', label: 'Company', minWidth: 100 },
+  { id: 'ticker', label: 'Ticker', minWidth: 60 },
+  { id: 'name', label: 'Company', minWidth: 100 },
   {
-    id: 'currentPrice',
-    label: 'Current Price',
+    id: 'portfolio',
+    label: 'Portfolio %',
     minWidth: 80,
     align: 'right',
     format: (value) => `$${value.toFixed(2)}`,
   },
   {
-    id: 'volume',
-    label: 'Volume',
+    id: 'price',
+    label: 'Price',
     minWidth: 70,
     align: 'right',
     format: (value) => value.toLocaleString(),
   },
   {
-    id: 'change',
+    id: 'Change',
     label: 'Change',
     minWidth: 70,
     align: 'right',
     format: (value) => `$${value.toFixed(2)}`,
   },
   {
-    id: 'actions',
+    id: 'percentchange',
+    label: 'Change %',
+    minWidth: 80,
+    align: 'center',
+  },
+  {
+    id: '',
     label: 'Actions',
     minWidth: 80,
     align: 'center',
@@ -44,16 +50,16 @@ const columns = [
 ];
 
 const TickerTable = ({currentlyWatched, setCurrentlyWatched, stocks, watchlist, setWatchlist}) => {
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
 
-  const handleAddToWatchlist = (symbol) => {
-    if (!watchlist.includes(symbol)){
-      setWatchlist([...watchlist, symbol]);
+  const handleAddToWatchlist = (ticker) => {
+    if (!watchlist.includes(ticker)){
+      setWatchlist([...watchlist, ticker]);
     }
   };
 
-  const handleRowClick = (symbol, company, currentPrice) => {
-    setCurrentlyWatched({ symbol, company, currentPrice });
+  const handleRowClick = (ticker, name, price) => {
+    setCurrentlyWatched({ ticker, name, price });
   };
 
   const handleSearch = (prefix) => {
@@ -62,18 +68,18 @@ const TickerTable = ({currentlyWatched, setCurrentlyWatched, stocks, watchlist, 
   };
 
   const filteredRows = stocks.filter((row) =>
-    row.company.toLowerCase().startsWith(searchTerm.toLowerCase())
+    row.name.toLowerCase().startsWith(searchTerm.toLowerCase())
   );
 
   const renderTableRows = () => {
     return filteredRows.map((row) => (
       <TableRow
-        key={row.symbol}
+        key={row.ticker}
         style={{
-          backgroundColor: currentlyWatched.symbol === row.symbol ? 'lightblue' : 'white',
+          backgroundColor: currentlyWatched.ticker === row.ticker ? 'lightblue' : 'white',
           cursor: 'pointer',
         }}
-        onClick={() => handleRowClick(row.symbol, row.company, row.currentPrice)}
+        onClick={() => handleRowClick(row.ticker, row.name, row.price)}
       >
         {columns.map((column) => {
           const value = row[column.id];
@@ -85,8 +91,8 @@ const TickerTable = ({currentlyWatched, setCurrentlyWatched, stocks, watchlist, 
                 fontFamily: 'Montserrat',
                 fontSize: '0.8rem',
                 padding: '8px',
-                color: column.id === 'change' ? (value >= 0 ? 'green' : 'red') : 'inherit',
-                fontWeight: column.id === "symbol" ? 600 : 300
+                color: column.id === 'Change' ? (value >= 0 ? 'green' : 'red') : 'inherit',
+                fontWeight: column.id === "ticker" ? 600 : 300
               }}
             >
               {column.id === 'actions' ? (
@@ -103,7 +109,7 @@ const TickerTable = ({currentlyWatched, setCurrentlyWatched, stocks, watchlist, 
                     cursor: "pointer"
                   }}
                   size="small"
-                  onClick={() => handleAddToWatchlist(row.symbol)}
+                  onClick={() => handleAddToWatchlist(row.ticker)}
                 >
                   Add to <br/>Watchlist
                 </button>
@@ -142,7 +148,7 @@ const TickerTable = ({currentlyWatched, setCurrentlyWatched, stocks, watchlist, 
           onChange={(e) => handleSearch(e.target.value)}
         />
         <button style={{padding:"8px",backgroundColor:"#007bff",color:"#fff",border: "none",borderRadius:"4px",cursor: "pointer"}}>
-        {/* Use your custom search symbol here */}
+        {/* Use your custom search ticker here */}
         <span role="img" aria-label="Search">
             <FaMagnifyingGlass/>
         </span>

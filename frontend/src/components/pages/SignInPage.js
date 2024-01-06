@@ -5,6 +5,7 @@ import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import { useData } from '../../providers/DataProvider';
 import { useAuth } from '../../providers/AuthProvider';
 
 const SignInPage = () => {
@@ -15,9 +16,12 @@ const SignInPage = () => {
 
     const {signIn, isSignedIn} = useAuth()
 
+    const {testData} = useData()
+
     const handleSignIn = () => {
         // Call the onSignIn callback with the username and password
-        signIn(email, password);
+       // signIn(email, password);
+       testData()
     };
 
     useEffect(()=>{

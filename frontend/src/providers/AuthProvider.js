@@ -9,7 +9,7 @@ const AuthContext = createContext();
 // Step 3: Create the provider component
 const AuthProvider = ({ children }) => {
   // State or any other data you want to provide
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState();
 
   const signOut = () => {
     setUser(null)
