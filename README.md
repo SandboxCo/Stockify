@@ -25,7 +25,7 @@ Stockify is a real-time stock dashboard application that provides users with up-
 The Stockify application is composed of multiple microservices orchestrated in a Kubernetes cluster. The architecture includes:
 
 - **Backend Microservices:**
-  - Golang microservices for data scraping, Kafka interaction, and Redis caching.
+  - Golang microservices for colly data scraping, Kafka interaction, and Redis caching.
   - Kafka producers for stock ticker data and news articles.
   - Kafka consumer microservice that retrieves data from Kafka and posts it to Redis cache.
 
