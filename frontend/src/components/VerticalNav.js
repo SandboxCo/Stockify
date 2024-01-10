@@ -3,6 +3,7 @@ import { FaChartLine } from "react-icons/fa6";
 import { FaNewspaper } from "react-icons/fa6";
 import { FaTableCellsLarge } from "react-icons/fa6";
 import Divider from '@mui/material/Divider';
+import { FaUser } from "react-icons/fa6";
 
 
 import {useLocation, useNavigate} from "react-router-dom"
@@ -58,14 +59,14 @@ function VerticalNav() {
                 <button style={{...linkStyle, color: pathname=="/dashboard" ? "#007BFF" : "#b3b3b3"}}
                     onClick={()=>{handleDashboardRedirect()}}
                 >
-                    <FaTableCellsLarge style={{marginRight: 7}}/>
-                    Dashboard
+                    <FaUser style={{marginRight: 7}}/>
+                    My Account
                 </button>
                 <Divider sx={{marginBottom:3}} />
                 <button style={{...linkStyle, color: pathname=="/" ? "#007BFF" : "#b3b3b3"}}
                     onClick={()=>{handleStockRedirect()}}
                 >
-                   <FaChartLine style={{marginRight: 7}}/> Stocks
+                   <FaChartLine style={{marginRight: 7}}/> Dashboard
                 </button>
                 <button style={{...linkStyle, color: pathname=="/news" ? "#007BFF" : "#b3b3b3"}}
                     onClick={()=>{handleNewsRedirect()}}

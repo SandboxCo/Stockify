@@ -44,16 +44,10 @@ export const test_stocks = [
   {Change: -8.04, name: "Unitedhealth Group Incorporated", percentchange: -1.47, portfolio: 1.27, price: 537.38, ticker: "UNH"}
 ]
 
-export const test_watched = {
-  symbol:"AAPL",
-  company:"Apple Inc.",
-  price: 330,
-}
-
 export const test_series =  [{
   data: [{
       x: new Date(1538778600000),
-      y: [6629.81, 6650.5, 6623.04, 6633.33]
+      y: [6629.81, 6650.5, 6623.04, 6633.33] 
     },
     {
       x: new Date(1538780400000),
@@ -293,3 +287,16 @@ export const test_series =  [{
     },
   ]
 }]
+
+export const test_watched = {
+  symbol:"AAPL",
+  company:"Apple Inc.",
+  price: 330,
+  afterHours: 129.85,
+  close: 130.15,
+  high: 133.41,
+  low: 129.89,
+  open: 130.465,
+  preMarket: 129.6,
+  volume: 70790813
+}

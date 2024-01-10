@@ -17,7 +17,7 @@ const columns = [
   {
     id: 'portfolio',
     label: 'Portfolio',
-    minWidth: 60,
+    minWidth: 50,
     align: 'right',
     format: (value) => `$${value.toFixed(2)}`,
   },
@@ -49,11 +49,13 @@ const columns = [
   },
 ];
 
-const TickerTable = ({currentlyWatched, setCurrentlyWatched, stocks, watchlist, setWatchlist}) => {
+const TickerTable = ({ currentlyWatched, setCurrentlyWatched, stocks, watchlist, setWatchlist }) => {
   const [searchTerm, setSearchTerm] = useState("");
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
 
   const handleAddToWatchlist = (ticker) => {
-    if (!watchlist.includes(ticker)){
+    if (!watchlist.includes(ticker)) {
       setWatchlist([...watchlist, ticker]);
     }
   };
@@ -64,7 +66,6 @@ const TickerTable = ({currentlyWatched, setCurrentlyWatched, stocks, watchlist, 
 
   const handleSearch = (prefix) => {
     setSearchTerm(prefix);
-    console.log(filteredRows, prefix)
   };
 
   const filteredRows = stocks.filter((row) =>
@@ -72,7 +73,9 @@ const TickerTable = ({currentlyWatched, setCurrentlyWatched, stocks, watchlist, 
   );
 
   const renderTableRows = () => {
-    return filteredRows.map((row) => (
+    const startIndex = page * rowsPerPage;
+    const endIndex = startIndex + rowsPerPage;
+    return filteredRows.slice(startIndex, endIndex).map((row) => (
       <TableRow
         key={row.ticker}
         style={{
@@ -125,9 +128,6 @@ const TickerTable = ({currentlyWatched, setCurrentlyWatched, stocks, watchlist, 
     ));
   };
 
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
-
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -138,23 +138,22 @@ const TickerTable = ({currentlyWatched, setCurrentlyWatched, stocks, watchlist, 
   };
 
   return (
-    <div style={{ width: '100%', height:"100%"}}>
-      <div style={{display: "flex", alignItems: "center", width:"100%",  height:"10%"}}>
+    <div style={{ width: '100%', height: "100%" }}>
+      <div style={{ display: "flex", alignItems: "center", width: "100%", height: "10%" }}>
         <input
           type="text"
           placeholder="Search Companies..."
           value={searchTerm}
-          style={{padding:"8px",width:"100%",border:"1px solid #ccc", borderRadius:4,marginRight:4, fontFamily:"Montserrat", outline:"none"}}
+          style={{ padding: "8px", width: "100%", border: "1px solid #ccc", borderRadius: 4, marginRight: 4, fontFamily: "Montserrat", outline: "none" }}
           onChange={(e) => handleSearch(e.target.value)}
         />
-        <button style={{padding:"8px",backgroundColor:"#007bff",color:"#fff",border: "none",borderRadius:"4px",cursor: "pointer"}}>
-        {/* Use your custom search ticker here */}
-        <span role="img" aria-label="Search">
-            <FaMagnifyingGlass/>
-        </span>
+        <button style={{ padding: "8px", backgroundColor: "#007bff", color: "#fff", border: "none", borderRadius: "4px", cursor: "pointer" }}>
+          <span role="img" aria-label="Search">
+            <FaMagnifyingGlass />
+          </span>
         </button>
-     </div>
-      <TableContainer sx={{backgroundColor: 'white', borderRadius: 3, overflowX: 'none', height:"90%"}}>
+      </div>
+      <TableContainer sx={{ backgroundColor: 'white', borderRadius: 3, overflowX: 'none', height: "90%" }}>
         <Table stickyHeader size="small" aria-label="a dense table">
           <TableHead>
             <TableRow>

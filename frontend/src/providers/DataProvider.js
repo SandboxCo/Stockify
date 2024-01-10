@@ -44,8 +44,8 @@ const DataProvider = ({ children }) => {
   }, []); // The empty dependency array ensures the effect runs only once when the component mounts
 
 
-  const getStockData = async (ticker) => {
-    // let apiUrl = `https://api.polygon.io/v3/reference/tickers/${ticker}?apiKey=QPFs6luFf15cS9kaDOcGp9GwhzGh0482`
+  const getStockData = async (ticker) => { 
+    // const series = seriesRes.data
     // let imageRes = await fetch(apiUrl)
 
     // let res = await imageRes.json()
@@ -56,13 +56,13 @@ const DataProvider = ({ children }) => {
 
     // console.log(image_url)
 
-    let apiUrl = "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=IBM&interval=5min&outputsize=full&apikey=I118H54CYS5PG3OK"
-    let seriesRes =  await axios.get(apiUrl)
-    const series = seriesRes.data
+    // let apiUrl = "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=IBM&interval=5min&outputsize=full&apikey=I118H54CYS5PG3OK"
+    // let seriesRes =  await axios.get(apiUrl)
+    // const series = seriesRes.data
 
-    console.log(series)
+    // console.log(series)
 
-    return series
+    //return series
   }
 
   const getArticles = async () => {
@@ -76,9 +76,10 @@ const DataProvider = ({ children }) => {
   const getAllStocks = async () => {
     let apiUrl = "http://localhost:8081/stocks"
     const res = await axios.get(apiUrl)
-    const stocks = res.data
-    console.log(stocks)
-    setStocks(stocks)
+    if (res.status == 200){
+      const stocks = res.data
+      setStocks(stocks)
+    }
   }
 
   const getWatchlist = async () => {
@@ -120,18 +121,29 @@ const DataProvider = ({ children }) => {
   }
 
   const updateCurrentlyWatching = async (stock) => {
-    //const {series, image_url} = await getStockData(stock.symbol)
+    let url =  `https://api.polygon.io/v1/open-close/${stock.ticker}/2023-01-09?adjusted=true&apiKey=QPFs6luFf15cS9kaDOcGp9GwhzGh0482`
+    let stockData =  await axios.get(url)
+    stockData = stockData.data
+
+    let apiUrl = `https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${stock.ticker}&interval=5min&outputsize=full&apikey=I118H54CYS5PG3OK`
+    let seriesRes =  await axios.get(apiUrl)
+    const series = seriesRes.data
+    console.log(series)
+
+    setSeries(series)
 
     setCurrentlyWatching({
       ticker: stock.ticker,
       name: stock.name,
       price:stock.price,
+      ...stockData
     })
   }
 
   const testData = () => {
-    getArticles()
-    getAllStocks()
+   // getArticles()
+   // getAllStocks()
+    getStockData()
    // getStockData("AAPL")
   }
 

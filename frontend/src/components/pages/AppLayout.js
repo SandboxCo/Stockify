@@ -9,7 +9,7 @@ import {
 import VerticalNav from "../VerticalNav"
 import HorizontalNav from "../HorizontalNav"
 import StockOverview from "./StockOverview";
-import NewsPage from "./NewsPage";
+import NewsPage from "../NewsGrid";
 
 function AppLayout({myComponentProp}){
     return (

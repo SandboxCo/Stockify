@@ -1,26 +1,11 @@
-import React from 'react';
-import ArticleCard from '../ArticleCard'; // Assuming you have a VerticalCard component
-import { useData } from '../../providers/DataProvider';
-
+import NewsGrid from "../NewsGrid";
 
 function NewsPage(){
+    return (
+        <div style={{width:"100%", height:"100%", backgroundColor:"#eee"}}>
+            <NewsGrid/>
+        </div>
+    )
+}
 
-  const {articles} = useData()
-
-  return (
-    <div
-      style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
-        gap: '16px',
-        padding: '16px',
-      }}
-    >
-      {articles.map((article, index) => (
-        <ArticleCard {...article} />
-      ))}
-    </div>
-  );
-};
-
-export default NewsPage;
+export default NewsPage

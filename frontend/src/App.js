@@ -6,6 +6,7 @@ import {
   Route
 } from "react-router-dom"
 
+
 import { AuthProvider } from "./providers/AuthProvider";
 import { DataProvider } from "./providers/DataProvider";
 
@@ -14,6 +15,7 @@ import NotFoundPage from "./components/pages/NotFoundPage";
 import SignInPage from "./components/pages/SignInPage";
 import StockOverview from "./components/pages/StockOverview";
 import NewsPage from "./components/pages/NewsPage";
+import SignUpPage from "./components/pages/SignUpPage";
 
 function App() {
   return (
@@ -35,6 +37,7 @@ function App() {
               }
             />
             <Route path="/signIn" Component={SignInPage} />
+            <Route path="/signUp" Component={SignUpPage} />
             <Route path="*" Component={NotFoundPage} />
           </Routes>
         </Router>
