@@ -17,25 +17,25 @@ function QuoteOverview(){
             <p style={{fontWeight: 500, margin:0, fontFamily:"Montserrat"}}>Quote Overview</p>
             <div style={{display:"flex", flexDirection:"column"}}>
                 <div>
-                    <p style={subTitleStyle}>After Hours <span style={{color:"black", marginLeft:5}}>{currentlyWatching.afterHours}</span></p>
+                    <p style={subTitleStyle}>After Hours <span style={{color:"black", marginLeft:5}}>${currentlyWatching.afterHours}</span></p>
                 </div>
                 <div>
-                    <p style={subTitleStyle}>Close<span style={{color:"black", marginLeft:5}}>{currentlyWatching.close}</span></p>
+                    <p style={subTitleStyle}>Close<span style={{color:"black", marginLeft:5}}>${currentlyWatching.close}</span></p>
                 </div>
                 <div>
-                    <p style={subTitleStyle}>High<span style={{color:"black", marginLeft:5}}>{currentlyWatching.high}</span></p>
+                    <p style={subTitleStyle}>High<span style={{color:"black", marginLeft:5}}>${currentlyWatching.high}</span></p>
                 </div>
                 <div>
-                    <p style={subTitleStyle}>Low<span style={{color:"black", marginLeft:5}}>{currentlyWatching.low}</span></p>
+                    <p style={subTitleStyle}>Low<span style={{color:"black", marginLeft:5}}>${currentlyWatching.low}</span></p>
                 </div>
                 <div>
-                    <p style={subTitleStyle}>Open<span style={{color:"black", marginLeft:5}}>{currentlyWatching.open}</span></p>
+                    <p style={subTitleStyle}>Open<span style={{color:"black", marginLeft:5}}>${currentlyWatching.open}</span></p>
                 </div>
                 <div>
-                    <p style={subTitleStyle}>Premarket<span style={{color:"black", marginLeft:5}}>{currentlyWatching.preMarket}</span></p>
+                    <p style={subTitleStyle}>Premarket<span style={{color:"black", marginLeft:5}}>${currentlyWatching.preMarket}</span></p>
                 </div>
                 <div>
-                    <p style={subTitleStyle}>Volume<span style={{color:"black", marginLeft:5}}>{currentlyWatching.volume}</span></p>
+                    <p style={subTitleStyle}>Volume<span style={{color:"black", marginLeft:5}}>${currentlyWatching.volume}</span></p>
                 </div>
             </div>
         </div>

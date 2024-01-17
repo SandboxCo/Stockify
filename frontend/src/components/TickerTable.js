@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -53,6 +53,10 @@ const TickerTable = ({ currentlyWatched, setCurrentlyWatched, stocks, watchlist,
   const [searchTerm, setSearchTerm] = useState("");
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
+
+  useEffect(() => {
+    setPage(0);
+  }, [searchTerm]);
 
   const handleAddToWatchlist = (ticker) => {
     if (!watchlist.includes(ticker)) {

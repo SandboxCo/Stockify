@@ -121,16 +121,43 @@ const DataProvider = ({ children }) => {
   }
 
   const updateCurrentlyWatching = async (stock) => {
+    function parseDateStringToJSDate(dateString) {
+      const [datePart, timePart] = dateString.split(' ');
+      const [year, month, day] = datePart.split('-');
+      const [hours, minutes, seconds] = timePart.split(':');
+
+      // Month is zero-based in JavaScript Date, so we subtract 1
+      return new Date(year, month - 1, day, hours, minutes, seconds);
+    }
+
     let url =  `https://api.polygon.io/v1/open-close/${stock.ticker}/2023-01-09?adjusted=true&apiKey=QPFs6luFf15cS9kaDOcGp9GwhzGh0482`
     let stockData =  await axios.get(url)
     stockData = stockData.data
 
-    let apiUrl = `https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${stock.ticker}&interval=5min&outputsize=full&apikey=I118H54CYS5PG3OK`
+    let apiUrl = `https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${stock.ticker}&interval=60min&outputsize=full&apikey=I118H54CYS5PG3OK`
     let seriesRes =  await axios.get(apiUrl)
     const series = seriesRes.data
-    console.log(series)
+    function parseIntradayStockData(jsonData) {
+      const timeSeries = jsonData["Time Series (5min)"];
+    
+      // Extract timestamps and corresponding OHLC data
+      const parsedData = Object.entries(timeSeries).map(([timestamp, values]) => {
+        return [
+          new Date(timestamp).getTime(),  // Convert timestamp to milliseconds
+          parseFloat(values["1. open"]),
+          parseFloat(values["2. high"]),
+          parseFloat(values["3. low"]),
+          parseFloat(values["4. close"]),
+        ];
+      });
+    
+      return [{data:parsedData}];
+    }
 
-    setSeries(series)
+    if (series == null){
+      const data = parseIntradayStockData(series)
+      setSeries(data)
+    }
 
     setCurrentlyWatching({
       ticker: stock.ticker,

@@ -12,6 +12,8 @@ import DateCard from "../DateCard"
 import MarketBar from "../MarketBar";
 import NewsHeader from "../NewsHeader";
 
+import TimerComponent from "../TimerComponent";
+
 import Watchlist from "../Watchlist";
 import { useData } from "../../providers/DataProvider";
 
@@ -71,7 +73,9 @@ function StockOverview(){
                                 <ArticleGrid/>
                             </div>
                         </div>
-                
+                        <div style={{width:"30%"}}>
+                            
+                        </div>
                     </div>
                 </div>
                 <div style={{width: "45%", height:"100%", boxSizing:"border-box", padding:15}}>
